@@ -1,0 +1,62 @@
+// For format details, see https://aka.ms/devcontainer.json. For config options, see the
+// README at: https://github.com/devcontainers/templates/tree/main/src/python
+{
+  "dockerComposeFile": "docker-compose.yml",
+  "service": "devcontainer",
+  "workspaceFolder": "/workspace",
+  "shutdownAction": "stopCompose",
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "geekanant.chrome-dinosaur-game",
+        "ms-python.python"
+      ],
+      "settings": {
+        "files.hotExit": "off",
+        "python.defaultInterpreterPath": "/bin/python",
+        "pylint.lintOnChange": true,
+        "pylint.importStrategy": "fromEnvironment",
+        "editor.formatOnSave": true,
+        "notebook.formatOnSave.enabled": true,
+        "editor.defaultFormatter": "esbenp.prettier-vscode",
+        "[shellscript]": {
+          "editor.defaultFormatter": "foxundermoon.shell-format"
+        },
+        "[dockerfile]": {
+          "editor.defaultFormatter": "foxundermoon.shell-format"
+        },
+        "[ignore]": {
+          "editor.defaultFormatter": "foxundermoon.shell-format"
+        },
+        "[properties]": {
+          "editor.defaultFormatter": "foxundermoon.shell-format"
+        },
+        "[jvmoptions]": {
+          "editor.defaultFormatter": "foxundermoon.shell-format"
+        },
+        "[hosts]": {
+          "editor.defaultFormatter": "foxundermoon.shell-format"
+        },
+        "[bats]": {
+          "editor.defaultFormatter": "foxundermoon.shell-format"
+        },
+        "[python]": {
+          "editor.defaultFormatter": "ms-python.black-formatter",
+          "editor.codeActionsOnSave": {
+            "source.fixAll": "explicit",
+            "source.organizeImports": "explicit"
+          }
+        },
+        "terminal.integrated.defaultProfile.linux": "fish",
+        "terminal.integrated.profiles.linux": {
+          "zsh": {
+            "path": "/bin/fish"
+          }
+        }
+      }
+    }
+  },
+  "initializeCommand": "docker compose -p ${localWorkspaceFolderBasename}_devcontainer down && docker buildx use default",
+  "postCreateCommand": "./.devcontainer/startup.sh",
+  "features": {}
+}

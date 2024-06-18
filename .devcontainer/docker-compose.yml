@@ -1,0 +1,17 @@
+services:
+  devcontainer:
+    container_name: "new"
+    # image: node:22.3.0-bookworm
+    build:
+      context: .
+      dockerfile: dev.Dockerfile
+    # image: python:3.12.4-bookworm
+    volumes:
+      - ..:/workspace:cached
+    ports:
+      - 5000:5000
+    command: sleep infinity
+
+  # python:
+  #   container_name: "python"
+  #   image: python:3.12.4-bookworm
