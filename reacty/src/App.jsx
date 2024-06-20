@@ -30,6 +30,8 @@ function App() {
   const [count2, setCount2] = useState(0);
   const [selectedImage, setSelectedImage] = useState(null);
   const [userId, setUserId] = useState(null);
+  const [request_userId, setRequest_userId] = useState(null);
+  const [request_OCR, setRequest_OCR] = useState(null);
 
   const handleImageUpload = (event) => {
     const file = event.target.files[0];
@@ -65,11 +67,21 @@ function App() {
       redirect: "follow"
     };
     
+
+
     fetch("http://localhost:5000/upload", requestOptions)
-      .then((response) => response.text())
-      .then((result) => alert(result))
-      .catch((error) => alert(error));
+      .then((response) => response.json())
+      .then((result) => {
+        setRequest_userId(result.userID);
+        console.log(request_userId);
+        // request_OCR = result.OCR;
+        setRequest_OCR(result.OCR);
+        console.log(request_OCR); 
+        console.log(result)})
+      .catch((error) => console.error("error", error));
   }
+  
+
 
   return (
     <>
@@ -99,6 +111,16 @@ function App() {
         <button onClick={imageUpload} className="submit-button" >Submit</button>
         </div>
       )}
+
+        {request_userId === userId && (
+          <div>
+            <h3>Response Data:</h3>
+            <p>User ID: {request_userId}</p>
+            <p>OCR: {request_OCR}</p>
+          </div>
+        )}
+
+        
       <div className="card">
         <button onClick={() => countW(count, setCount)}>count is  {count}</button>
       </div>
