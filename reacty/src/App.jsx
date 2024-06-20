@@ -1,7 +1,5 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import "./App.css";
-
-
 
 function countW(count, setCount) {
   setCount((count) => count + 1);
@@ -26,18 +24,69 @@ function countW(count, setCount) {
     .catch((error) => console.error(error));
 }
 
+
 function App() {
   const [count, setCount] = useState(0);
   const [count2, setCount2] = useState(0);
+  const [selectedImage, setSelectedImage] = useState(null);
+
+  const handleImageUpload = (event) => {
+    const file = event.target.files[0];
+    if (file) {
+      setSelectedImage(file);
+
+
+    }
+  };
+
+  function imageUpload() {
+    console.log("imageUpload");
+    const formdata = new FormData();
+    // const blob = new Blob([selectedImage], { type: "image/jpeg" });
+    formdata.append("file", selectedImage , 'hello');
+    
+    const requestOptions = {
+      method: "POST",
+      body: formdata,
+      redirect: "follow"
+    };
+    
+    fetch("http://localhost:5000/upload", requestOptions)
+      .then((response) => response.text())
+      .then((result) => console.log(result))
+      .catch((error) => console.error(error));
+  }
 
   return (
     <>
-        <div className="card">
-          <button onClick={() => countW(count, setCount)}>count is {count}</button>
+      <form >
+        <label htmlFor="myFile" className="custom-file-upload">
+          Choose File
+        </label>
+        <input
+          type="file"
+          id="myFile"
+          name="filename"
+          accept="image/*"
+          onChange={handleImageUpload}
+        />
+
+      </form>
+      {selectedImage && (
+        <div>
+          <h3>Uploaded Image:</h3>
+          <img src={URL.createObjectURL(selectedImage)} alt="Selected" style={{ maxWidth: "50%" }} />
+        <br/>
+        <br/>
+        <button onClick={imageUpload} className="submit-button" >Submit</button>
         </div>
-        <div className="card1">
-          <button onClick={() => countW(count2, setCount2)}>count is {count2}</button>
-        </div>
+      )}
+      <div className="card">
+        <button onClick={() => countW(count, setCount)}>count is  {count}</button>
+      </div>
+      <div className="card1">
+        <button onClick={() => countW(count2, setCount2)}>count is {count2}</button>
+      </div>
     </>
   );
 }
