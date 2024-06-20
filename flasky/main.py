@@ -1,5 +1,6 @@
 from flask import Flask, request
 from flask_cors import CORS
+import time
 
 app = Flask(__name__)
 # app.config["CORS_HEADERS"] = "Content-Type"
@@ -30,9 +31,13 @@ def upload():
         file = request.files['file']
         filename = file.filename
         file.save('zImage/' + filename + '.png')
-
+        
+        inference()
         
         return 'File uploaded successfully'
+
+def inference():
+    time.sleep(5)
 
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0')
