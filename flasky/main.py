@@ -14,13 +14,13 @@ def hello():
         print(data_num)
         return f'{data_num}'
 
-    if request.method == 'GET':
-        data = request.args
-        data_num = data["number"]
-        if data_num == None:
-            return 'NO DATA'
-        return str( int(data_num) * 2 )
-    return 'Invalid request'
+    # if request.method == 'GET':
+    #     data = request.args
+    #     data_num = data["number"]
+    #     if data_num == None:
+    #         return 'NO DATA'
+    #     return str( int(data_num) * 2 )
+    # return 'Invalid request'
 
 @app.route("/upload", methods=['POST'])
 def upload():
@@ -28,7 +28,9 @@ def upload():
             return 'No file found'
         
         file = request.files['file']
-        file.save('img.png')
+        filename = file.filename
+        file.save('zImage/' + filename + '.png')
+
         
         return 'File uploaded successfully'
 

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./App.css";
 
 function countW(count, setCount) {
@@ -29,6 +29,7 @@ function App() {
   const [count, setCount] = useState(0);
   const [count2, setCount2] = useState(0);
   const [selectedImage, setSelectedImage] = useState(null);
+  const [userId, setUserId] = useState(null);
 
   const handleImageUpload = (event) => {
     const file = event.target.files[0];
@@ -39,11 +40,24 @@ function App() {
     }
   };
 
+  useEffect(() => {
+    // Check if user ID already exists in local storage
+    let storedUserId = localStorage.getItem('userId');
+    if (!storedUserId) {
+      // Generate a unique user ID
+      const uniqueId = `User_${Date.now()}_${Math.floor(Math.random() * 1000000)}`;
+      localStorage.setItem('userId', uniqueId);
+      storedUserId = uniqueId;
+    }
+    setUserId(storedUserId);
+  }, []);
+
   function imageUpload() {
+    
     console.log("imageUpload");
     const formdata = new FormData();
     // const blob = new Blob([selectedImage], { type: "image/jpeg" });
-    formdata.append("file", selectedImage , 'hello');
+    formdata.append("file", selectedImage, userId);
     
     const requestOptions = {
       method: "POST",
@@ -53,12 +67,16 @@ function App() {
     
     fetch("http://localhost:5000/upload", requestOptions)
       .then((response) => response.text())
-      .then((result) => console.log(result))
-      .catch((error) => console.error(error));
+      .then((result) => alert(result))
+      .catch((error) => alert(error));
   }
 
   return (
     <>
+      <header className="idDisplay">
+        <p>{userId}</p>
+      </header>
+
       <form >
         <label htmlFor="myFile" className="custom-file-upload">
           Choose File

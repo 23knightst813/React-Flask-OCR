@@ -88,3 +88,9 @@ input[type="file"] {
 .submit-button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
 }
+
+.idDisplay {
+  position: absolute;
+  top: 0vh;
+  left: 2vh;
+}
