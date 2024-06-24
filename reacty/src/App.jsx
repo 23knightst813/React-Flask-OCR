@@ -1,5 +1,8 @@
 import React, { useEffect, useState } from "react";
+import ReactDOM from "react-dom";
+import CanvasDraw from "react-canvas-draw";
 import "./App.css";
+
 
 function countW(count, setCount) {
   setCount((count) => count + 1);
@@ -32,6 +35,8 @@ function App() {
   const [userId, setUserId] = useState(null);
   const [request_userId, setRequest_userId] = useState(null);
   const [request_OCR, setRequest_OCR] = useState(null);
+  const [showCanvas, setShowCanvas] = useState(false);
+  const canvasRef = React.createRef();
 
   const handleImageUpload = (event) => {
     const file = event.target.files[0];
@@ -81,6 +86,11 @@ function App() {
       .catch((error) => console.error("error", error));
   }
   
+  const saveDrawing = () => {
+    const drawing = canvasRef.current.getSaveData();
+    // save drawing to storage or state
+  };
+
 
 
   return (
@@ -100,8 +110,13 @@ function App() {
           accept="image/*"
           onChange={handleImageUpload}
         />
+        <br />
+        <p>or</p>
+
+
 
       </form>
+        <button className="showCanvas" onClick={() => setShowCanvas(true)}>Draw</button>
       {selectedImage && (
         <div>
           <h3>Uploaded Image:</h3>
@@ -109,6 +124,21 @@ function App() {
         <br/>
         <br/>
         <button onClick={imageUpload} className="submit-button" >Submit</button>
+        </div>
+      )}
+
+      { showCanvas && (
+        <div>
+          <p>Draw your image</p>
+          <CanvasDraw
+            ref={canvasRef}
+            brushColor="#0000000"
+            brushRadius={6}
+            canvasWidth={600}
+            canvasHeight={400}
+          />
+        <button onClick={() => saveDrawing()}>Submit</button>
+
         </div>
       )}
 
