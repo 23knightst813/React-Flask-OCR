@@ -38,6 +38,10 @@ function App() {
   const [showCanvas, setShowCanvas] = useState(false);
   const canvasRef = React.createRef();
 
+  
+
+
+
   const handleImageUpload = (event) => {
     const file = event.target.files[0];
     if (file) {
@@ -86,12 +90,27 @@ function App() {
   
   const saveDrawing = () => {
     const canvas = canvasRef.current.canvasContainer.children[1];
+    const ctx = canvas.getContext('2d');
+    
+    // Save the current drawing state
+    ctx.save();
+    
+    // Draw a white background
+    ctx.globalCompositeOperation = 'destination-over';
+    ctx.fillStyle = 'white';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    
+    // Restore the drawing state
+    ctx.restore();
+    
+    // Convert to Blob
     canvas.toBlob((blob) => {
       console.log('PNG Blob:', blob);
       // You can now use blob for further operations, such as uploading to a server
       uploadFile(blob, "http://localhost:5000/upload");
     }, 'image/png');
   };
+  
 
 
   return (
@@ -131,12 +150,13 @@ function App() {
       { showCanvas && (
         <div>
           <p>Draw your image</p>
+          
           <CanvasDraw
             ref={canvasRef}
-            brushColor="#0000000"
+            brushColor="#000000"
             brushRadius={6}
-            canvasWidth={600}
-            canvasHeight={400}
+            canvasWidth={300}
+            canvasHeight={300}
           />
         <button onClick={() => saveDrawing()}>Submit</button>
 
@@ -151,12 +171,9 @@ function App() {
           </div>
         )}
 
-        
+      
       <div className="card">
         <button onClick={() => countW(count, setCount)}>count is  {count}</button>
-      </div>
-      <div className="card1">
-        <button onClick={() => countW(count2, setCount2)}>count is {count2}</button>
       </div>
     </>
   );
