@@ -158,6 +158,7 @@ function App() {
             canvasWidth={300}
             canvasHeight={300}
           />
+          <br/>
         <button onClick={() => saveDrawing()}>Submit</button>
 
         </div>
