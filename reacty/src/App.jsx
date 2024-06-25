@@ -59,38 +59,39 @@ function App() {
     setUserId(storedUserId);
   }, []);
 
-  function imageUpload() {
-    
-    console.log("imageUpload");
+  function uploadFile(file, endpoint) {
     const formdata = new FormData();
-    // const blob = new Blob([selectedImage], { type: "image/jpeg" });
-    formdata.append("file", selectedImage, userId);
+    formdata.append("file", file, userId);
     
     const requestOptions = {
       method: "POST",
       body: formdata,
       redirect: "follow"
     };
-    
-
-
-    fetch("http://localhost:5000/upload", requestOptions)
+  
+    fetch(endpoint, requestOptions)
       .then((response) => response.json())
       .then((result) => {
         setRequest_userId(result.userID);
         console.log(request_userId);
-        // request_OCR = result.OCR;
         setRequest_OCR(result.OCR);
         console.log(request_OCR); 
         console.log(result)})
       .catch((error) => console.error("error", error));
   }
+
+  function imageUpload() {
+    uploadFile(selectedImage, "http://localhost:5000/upload");
+  }
   
   const saveDrawing = () => {
-    const drawing = canvasRef.current.getSaveData();
-    // save drawing to storage or state
+    const canvas = canvasRef.current.canvasContainer.children[1];
+    canvas.toBlob((blob) => {
+      console.log('PNG Blob:', blob);
+      // You can now use blob for further operations, such as uploading to a server
+      uploadFile(blob, "http://localhost:5000/upload");
+    }, 'image/png');
   };
-
 
 
   return (
