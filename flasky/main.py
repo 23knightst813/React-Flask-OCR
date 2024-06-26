@@ -13,9 +13,10 @@ import os
 os.environ["CUDA_VISIBLE-DEVICES"] ="-1"
 print(tf.__version__)
 
-model = load_model('/workspace/AIy/blood_sweat_tears.h5')
+# model = load_model('/workspace/AIy/blood_sweat_tears.h5')
 # model = load_model('/workspace/AIy/model.keras')
 # model = load_model('/workspace/AIy/my_model.keras')
+model = load_model('AIy/AiModel-sauron-v1.5.keras')
 
 app = Flask(__name__)
 CORS(app)
@@ -26,8 +27,6 @@ def preprocess_image(image_path):
     print('preprocess')
     # Load the image
     img = cv2.imread(image_path, cv2.IMREAD_GRAYSCALE)
-
-
 
     #invert
     img = cv2.bitwise_not(img)

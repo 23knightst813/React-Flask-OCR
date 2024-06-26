@@ -1,36 +1,35 @@
 import React, { useEffect, useState } from "react";
-import ReactDOM from "react-dom";
 import CanvasDraw from "react-canvas-draw";
 import "./App.css";
 
 
-function countW(count, setCount) {
-  setCount((count) => count + 1);
-  // console.log(count);
-  const myHeaders = new Headers();
-  myHeaders.append("Content-Type", "application/json");
+// function countW(count, setCount) {
+//   setCount((count) => count + 1);
+//   // console.log(count);
+//   const myHeaders = new Headers();
+//   myHeaders.append("Content-Type", "application/json");
 
-  const raw = JSON.stringify({
-    number: count,
-  });
+//   const raw = JSON.stringify({
+//     number: count,
+//   });
 
-  const requestOptions = {
-    method: "POST",
-    headers: myHeaders,
-    body: raw,
-    redirect: "follow",
-  };
+//   const requestOptions = {
+//     method: "POST",
+//     headers: myHeaders,
+//     body: raw,
+//     redirect: "follow",
+//   };
 
-  fetch("http://localhost:5000", requestOptions)
-    .then((response) => response.text())
-    .then((result) => console.log(result))
-    .catch((error) => console.error(error));
-}
+//   fetch("http://localhost:5000", requestOptions)
+//     .then((response) => response.text())
+//     .then((result) => console.log(result))
+//     .catch((error) => console.error(error));
+// }
 
 
 function App() {
-  const [count, setCount] = useState(0);
-  const [count2, setCount2] = useState(0);
+  // const [count, setCount] = useState(0);
+  // const [count2, setCount2] = useState(0);
   const [selectedImage, setSelectedImage] = useState(null);
   const [userId, setUserId] = useState(null);
   const [request_userId, setRequest_userId] = useState(null);
@@ -39,8 +38,6 @@ function App() {
   const canvasRef = React.createRef();
 
   
-
-
 
   const handleImageUpload = (event) => {
     const file = event.target.files[0];
@@ -111,6 +108,9 @@ function App() {
     }, 'image/png');
   };
   
+  const clearDrawing = () => {
+    canvasRef.current.clear();
+  }
 
 
   return (
@@ -159,7 +159,9 @@ function App() {
             canvasHeight={300}
           />
           <br/>
+        <button onClick={() => clearDrawing()}>Clear</button>
         <button onClick={() => saveDrawing()}>Submit</button>
+
 
         </div>
       )}
@@ -173,9 +175,9 @@ function App() {
         )}
 
       
-      <div className="card">
+      {/* <div className="card">
         <button onClick={() => countW(count, setCount)}>count is  {count}</button>
-      </div>
+      </div> */}
     </>
   );
 }

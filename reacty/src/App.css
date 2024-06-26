@@ -14,9 +14,8 @@
 .card {
   padding: 2em;
 }
-
-.read-the-docs {
-  color: #888;
+body {
+  background-color: #272727;
 }
 
 button {
