@@ -16,7 +16,7 @@ print(tf.__version__)
 # model = load_model('/workspace/AIy/blood_sweat_tears.h5')
 # model = load_model('/workspace/AIy/model.keras')
 # model = load_model('/workspace/AIy/my_model.keras')
-model = load_model('AIy/AiModel-sauron-v1.5.keras')
+model = load_model('AIy/models/AiModel-sauron-v1.5.keras')
 
 app = Flask(__name__)
 CORS(app)
@@ -90,6 +90,17 @@ def upload():
                 })
                 )
 
+
+@app.route("/models", methods=['GET'])
+def models():
+    print('models')
+    model_location = "AIy/models"
+    model_files = {}
+    for filename in os.listdir(model_location):
+        file_path = os.path.join(model_location, filename)
+        model_files[filename] = file_path
+
+    return json.dumps(model_files)
 
 
 
