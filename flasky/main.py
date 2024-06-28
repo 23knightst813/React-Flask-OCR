@@ -16,7 +16,7 @@ print(tf.__version__)
 # model = load_model('/workspace/AIy/blood_sweat_tears.h5')
 # model = load_model('/workspace/AIy/model.keras')
 # model = load_model('/workspace/AIy/my_model.keras')
-model = load_model('AIy/models/AiModel-sauron-v1.5.keras')
+# model = load_model('AIy/models/AiModel-sauron-v1.5.keras')
 
 app = Flask(__name__)
 CORS(app)
@@ -46,7 +46,7 @@ def preprocess_image(image_path):
     return img
 
 # Function to predict the digit
-def predict_digit(image_path):
+def predict_digit(image_path ,model):
     # mnist = tf.keras.datasets.mnist
     # (x_tr, y_tr), (x_test, y_test) = mnist.load_data()
     # x_tr, x_test = x_tr/255.0, x_test/255.0
@@ -63,9 +63,11 @@ def predict_digit(image_path):
     return int(predicted_class)
 
 
-def aiStuff(image_path):
+def aiStuff(image_path,model_path):
+    
     print('Beep Boop')
-    result = predict_digit(image_path)
+    model = load_model(model_path)
+    result = predict_digit(image_path , model)
     print('#########################',result)
     return result
 
@@ -77,16 +79,18 @@ def upload():
             return 'No file found'
         
         file = request.files['file']
+        model = request.form.get('model', 'AiModel-sauron-v1.5.keras') # use sauron as defult 
         userId = file.filename
-        image_path = 'zImage/' + userId + '.png'
-
+        image_path = 'zimagey/' + userId + '.png'
+        model_path = ('AIy/models/' + str(model))
         file.save(image_path)
-        ocr_final = aiStuff(image_path)
+        ocr_final = aiStuff(image_path,model_path)
 
         return ( 
             json.dumps({
                     "userID": userId,
-                    "OCR": ocr_final
+                    "OCR": ocr_final,
+                    "model": model
                 })
                 )
 
@@ -95,11 +99,9 @@ def upload():
 def models():
     print('models')
     model_location = "AIy/models"
-    model_files = {}
+    model_files = []
     for filename in os.listdir(model_location):
-        file_path = os.path.join(model_location, filename)
-        model_files[filename] = file_path
-
+        model_files.append(filename)
     return json.dumps(model_files)
 
 

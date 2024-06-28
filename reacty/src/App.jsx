@@ -34,19 +34,24 @@ function App() {
   const [userId, setUserId] = useState(null);
   const [request_userId, setRequest_userId] = useState(null);
   const [request_OCR, setRequest_OCR] = useState(null);
+  const [RequestModel, setRequestModel] = useState(null);
   const [showCanvas, setShowCanvas] = useState(false);
   const canvasRef = React.createRef();
-
+  const [models, setModels] = useState([]);
+  const [selectedModel, setSelectedModel] = useState('AiModel-sauron-v1.5.keras');
+  
   
 
   const handleImageUpload = (event) => {
     const file = event.target.files[0];
     if (file) {
       setSelectedImage(file);
-
-
     }
   };
+
+  function handleModelChange(event) {
+    setSelectedModel(event.target.value);
+  }
 
   useEffect(() => {
     // Check if user ID already exists in local storage
@@ -58,12 +63,15 @@ function App() {
       storedUserId = uniqueId;
     }
     setUserId(storedUserId);
+    getModels();
   }, []);
+
 
   function uploadFile(file, endpoint) {
     const formdata = new FormData();
     formdata.append("file", file, userId);
-    
+    formdata.append("model", selectedModel); // Add the selected model to the request
+    console.log(selectedModel);
     const requestOptions = {
       method: "POST",
       body: formdata,
@@ -77,9 +85,27 @@ function App() {
         console.log(request_userId);
         setRequest_OCR(result.OCR);
         console.log(request_OCR); 
+        setRequestModel(result.model);
+        console.log(RequestModel);
         console.log(result)})
       .catch((error) => console.error("error", error));
   }
+
+  function getModels() {
+    const requestOptions = {
+      method: "GET",
+      redirect: "follow"
+    };
+    
+    fetch("http://127.0.0.1:5000/models", requestOptions)
+      .then((response) => response.json()) // parse the response as JSON
+      .then((result) => {
+        setModels(result); // update the state with the fetched data
+      })
+      .catch((error) => console.error(error));
+
+  }
+
 
   function imageUpload() {
     uploadFile(selectedImage, "http://localhost:5000/upload");
@@ -103,7 +129,6 @@ function App() {
     // Convert to Blob
     canvas.toBlob((blob) => {
       console.log('PNG Blob:', blob);
-      // You can now use blob for further operations, such as uploading to a server
       uploadFile(blob, "http://localhost:5000/upload");
     }, 'image/png');
   };
@@ -118,6 +143,18 @@ function App() {
       <header className="idDisplay">
         <p>{userId}</p>
       </header>
+
+      <div className='modelDrop'>
+      <label htmlFor="model">Choose a model:</label>
+      <br/>
+      <select value={selectedModel} onChange={handleModelChange}>
+        {models.map((model, index) => (
+          <option key={index} value={model}>
+            {model}
+          </option>
+        ))}
+      </select>
+    </div>
 
       <form >
         <label htmlFor="myFile" className="custom-file-upload">
@@ -171,6 +208,7 @@ function App() {
             <h3>Response Data:</h3>
             <p>User ID: {request_userId}</p>
             <p>OCR: {request_OCR}</p>
+            <p>Model: {RequestModel}</p>
           </div>
         )}
 

@@ -117,3 +117,9 @@ input[type="file"] {
 .showCanvas:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
 }
+
+.modelDrop {
+  position: absolute;
+  top: 5vh;
+  left: 2vh;
+}
