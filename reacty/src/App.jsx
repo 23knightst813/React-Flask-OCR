@@ -38,7 +38,7 @@ function App() {
   const [showCanvas, setShowCanvas] = useState(false);
   const canvasRef = React.createRef();
   const [models, setModels] = useState([]);
-  const [selectedModel, setSelectedModel] = useState('AiModel-sauron-v1.5.keras');
+  const [selectedModel, setSelectedModel] = useState('');
   
   
 
@@ -63,7 +63,10 @@ function App() {
       storedUserId = uniqueId;
     }
     setUserId(storedUserId);
-    getModels();
+    getModels().then(models => {
+      setModels(models);
+      setSelectedModel(models[0]);
+    });
   }, []);
 
 
@@ -96,14 +99,10 @@ function App() {
       method: "GET",
       redirect: "follow"
     };
-    
-    fetch("http://127.0.0.1:5000/models", requestOptions)
+  
+    return fetch("http://127.0.0.1:5000/models", requestOptions)
       .then((response) => response.json()) // parse the response as JSON
-      .then((result) => {
-        setModels(result); // update the state with the fetched data
-      })
       .catch((error) => console.error(error));
-
   }
 
 

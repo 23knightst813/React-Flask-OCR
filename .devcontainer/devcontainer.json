@@ -9,7 +9,8 @@
     "vscode": {
       "extensions": [
         "geekanant.chrome-dinosaur-game",
-        "ms-python.python"
+        "ms-python.python",
+        "GitHub.copilot"
       ],
       "settings": {
         "files.hotExit": "off",

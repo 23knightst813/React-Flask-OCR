@@ -1,14 +1,17 @@
-from flask import Flask, request
-from flask_cors import CORS
-import time
 import http.client
 import json
-import tensorflow as tf
-from tensorflow.keras.models import load_model
-import numpy as np
-import cv2
 import os
+import shutil
+import time
 
+import cv2
+import kagglehub
+import numpy as np
+import tensorflow as tf
+import tensorflow_hub as hub
+from flask import Flask, request
+from flask_cors import CORS
+from tensorflow.keras.models import load_model
 
 os.environ["CUDA_VISIBLE-DEVICES"] ="-1"
 print(tf.__version__)
@@ -21,6 +24,19 @@ print(tf.__version__)
 app = Flask(__name__)
 CORS(app)
 
+def saveWebModel():
+    # Download latest version
+    downloaded_dir = kagglehub.model_download("henrygucao/handwritten-numerical-digits-classifier/keras/best")
+
+    # Find the .h5 file in the downloaded directory
+    path = next((os.path.join(downloaded_dir, file) for file in os.listdir(downloaded_dir) if file.endswith(".h5")), None)
+
+    # Define the destination folder
+    destination_folder = "AIy/models"
+
+    # Move the .h5 file to the destination folder
+    destination_path = os.path.join(destination_folder, "number_classifier.h5")
+    shutil.move(path, destination_path)
 
 # Function to preprocess the image blob
 def preprocess_image(image_path):
@@ -66,7 +82,7 @@ def predict_digit(image_path ,model):
 def aiStuff(image_path,model_path):
     
     print('Beep Boop')
-    model = load_model(model_path)
+    model = load_model('AIy/models/1/number_classifier.h5')
     result = predict_digit(image_path , model)
     print('#########################',result)
     return result
