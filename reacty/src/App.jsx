@@ -14,7 +14,8 @@ function App() {
   const [models, setModels] = useState([]);
   const [selectedModel, setSelectedModel] = useState('');
   
-  
+
+
 
   const handleImageUpload = (event) => {
     const file = event.target.files[0];
@@ -110,6 +111,10 @@ function App() {
     canvasRef.current.clear();
   }
 
+  const speak = (text) => {
+    const utterance = new SpeechSynthesisUtterance(text);
+    window.speechSynthesis.speak(utterance);
+  };
 
   return (
     <>
@@ -178,11 +183,14 @@ function App() {
 
         {request_userId === userId && (
           <div>
-            <h3>Response Data:</h3>
-            <p>User ID: {request_userId}</p>
-            <p>OCR: {request_OCR}</p>
-            <p>Model: {RequestModel}</p>
-          </div>
+          <h3>Response Data:</h3>
+          <p>User ID: {request_userId}</p>
+          <p>OCR: {request_OCR}</p>
+          <p>Model: {RequestModel}</p>
+
+          <button onClick={() => speak(request_OCR)}>Speak</button>
+
+        </div>
         )}
 
       
