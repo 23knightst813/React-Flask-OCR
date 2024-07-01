@@ -16,6 +16,7 @@
 }
 body {
   background-color: #272727;
+  color: #ffffff;
 }
 
 button {
@@ -123,3 +124,4 @@ input[type="file"] {
   top: 0vh;
   left: 2vh;
 }
+

@@ -8,7 +8,7 @@ function App() {
   const [userId, setUserId] = useState(null);
   const [request_userId, setRequest_userId] = useState(null);
   const [request_OCR, setRequest_OCR] = useState(null);
-  const [RequestModel, setRequestModel] = useState(null);
+  const [request_model, setrequest_model] = useState(null);
   const [showCanvas, setShowCanvas] = useState(false);
   const canvasRef = React.createRef();
   const [models, setModels] = useState([]);
@@ -63,8 +63,8 @@ function App() {
         console.log(request_userId);
         setRequest_OCR(result.OCR);
         console.log(request_OCR); 
-        setRequestModel(result.model);
-        console.log(RequestModel);
+        setrequest_model(result.model);
+        console.log(request_model);
         console.log(result)})
       .catch((error) => console.error("error", error));
   }
@@ -112,9 +112,13 @@ function App() {
   }
 
   const speak = (text) => {
-    const utterance = new SpeechSynthesisUtterance(text);
+    const utterance = new SpeechSynthesisUtterance('The number is ' + text);
+    const voices = window.speechSynthesis.getVoices();
+    const selectedVoice = voices.find(voice => voice.name === "Microsoft Priya Online - English (India)");
+    utterance.voice = selectedVoice;
     window.speechSynthesis.speak(utterance);
   };
+
 
   return (
     <>
@@ -148,7 +152,9 @@ function App() {
         <br />
         <p>or</p>
 
+        <button>Paste Image</button>
 
+        <p>or</p>
 
       </form>
         <button className="showCanvas" onClick={() => setShowCanvas(true)}>Draw</button>
@@ -186,7 +192,7 @@ function App() {
           <h3>Response Data:</h3>
           <p>User ID: {request_userId}</p>
           <p>OCR: {request_OCR}</p>
-          <p>Model: {RequestModel}</p>
+          <p>Model: {request_model}</p>
 
           <button onClick={() => speak(request_OCR)}>Speak</button>
 
