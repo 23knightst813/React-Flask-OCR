@@ -122,6 +122,7 @@ function App() {
 
   return (
     <>
+      
       <header className="idDisplay">
         <p>{userId}</p>
       </header>
