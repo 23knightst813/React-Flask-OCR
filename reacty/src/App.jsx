@@ -152,10 +152,6 @@ function App() {
         <br />
         <p>or</p>
 
-        <button>Paste Image</button>
-
-        <p>or</p>
-
       </form>
         <button className="showCanvas" onClick={() => setShowCanvas(true)}>Draw</button>
       {selectedImage && (
