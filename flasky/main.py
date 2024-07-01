@@ -63,14 +63,14 @@ def preprocess_image(image_path):
     #invert
     img = cv2.bitwise_not(img)
 
-    # Save the image
-    cv2.imwrite('/workspace/AIy/saved_image.png', img)
-
     # Resize the image to 28x28 pixels
     img = cv2.resize(img, (28, 28))
 
+    # Save the image
+    cv2.imwrite('/workspace/AIy/saved_image.png', img)
     # Normalize the image
     img = img / 255.0
+
 
     # Reshape the image to match the input shape
     img = np.reshape(img, (1, 28, 28))
