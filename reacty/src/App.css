@@ -88,11 +88,6 @@ input[type="file"] {
   outline: 4px auto -webkit-focus-ring-color;
 }
 
-.idDisplay {
-  position: absolute;
-  top: 0vh;
-  left: 2vh;
-}
 
 
 .showCanvas {
@@ -121,5 +116,10 @@ input[type="file"] {
 .modelDrop {
   position: absolute;
   top: 5vh;
+  left: 4vh;
+}
+.idDisplay {
+  position: absolute;
+  top: 0vh;
   left: 2vh;
 }
