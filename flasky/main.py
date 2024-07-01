@@ -13,12 +13,28 @@ from flask import Flask, request
 from flask_cors import CORS
 from tensorflow.keras.models import load_model
 
+
 os.environ["CUDA_VISIBLE-DEVICES"] ="-1"
 print(tf.__version__)
 
 
 app = Flask(__name__)
 CORS(app)
+
+
+@app.route("/models", methods=['GET'])
+def modelsGet():
+    print('models')
+    model_location = "AIy/models"
+    model_files = []
+    for filename in os.listdir(model_location):
+        model_files.append(filename)
+
+    if not model_files:
+            print('nuhuh')
+            new_model_file = saveWebModel()
+            model_files.append(new_model_file)
+    return json.dumps(model_files)
 
 
 
@@ -36,6 +52,7 @@ def saveWebModel():
     destination_path = os.path.join(destination_folder, "number_classifier.h5")
     shutil.move(path, destination_path)
 
+    return 'number_classifier.h5'
 
 # Function to preprocess the image blob
 def preprocess_image(image_path):
@@ -78,23 +95,9 @@ def predict_digit(image_path ,model):
     return int(predicted_class)
 
 
+
 def aiStuff(image_path,model_path):
-    
     print('Beep Boop')
-
-    #Check if there are any models localy
-
-    models_json = "pluh"
-    print(models_json)
-    models_json = models()
-    print(models_json)
-    if models_json == "" and not models_json and models_json.isspace():
-        print('nuhuh')
-        saveWebModel()
-        model_path = 'AIy/models/number_classifier.h5'
-    else:
-        pass
-    print(model_path)
     model = load_model(model_path)
     result = predict_digit(image_path , model)
     print('#########################',result)
@@ -124,14 +127,6 @@ def upload():
                 )
 
 
-@app.route("/models", methods=['GET'])
-def models():
-    print('models')
-    model_location = "AIy/models"
-    model_files = []
-    for filename in os.listdir(model_location):
-        model_files.append(filename)
-    return json.dumps(model_files)
 
 
 
