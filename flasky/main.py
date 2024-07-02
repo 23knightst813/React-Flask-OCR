@@ -4,6 +4,9 @@ import os
 import shutil
 import time
 
+#Block optional errrors filling up the terminal
+os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
+
 import cv2
 import kagglehub
 import numpy as np
