@@ -124,7 +124,7 @@ input[type="file"] {
 }
 .idDisplay {
   position: absolute;
-  top: -0.8vh;
+  top: 1vh;
   left: 2vh;
   font-size: 13px;
 }
