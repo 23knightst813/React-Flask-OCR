@@ -169,9 +169,9 @@ function getHistoryFromStorage() {
 
     
     <div className="History" tabIndex="-1">
-      <p tabIndex="-1">History</p>
-      <ul>
-        {getHistoryFromStorage().map((entry, index) => (
+      <h3 tabIndex="-1">History</h3>
+      <ul className="HistoryList">
+        {getHistoryFromStorage().reverse().map((entry, index) => (
           <p key={index}>{entry.date} - {entry.OCR}</p>
         ))}
       </ul>

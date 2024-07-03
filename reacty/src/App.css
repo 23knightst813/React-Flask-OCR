@@ -124,14 +124,27 @@ input[type="file"] {
 }
 .idDisplay {
   position: absolute;
-  top: -0.8vh;
+  top: 1vh;
   left: 2vh;
   font-size: 13px;
 }
 
 .History {
   position: absolute;
-  top: 5vh;
-  right: 5vh;
+  top: 2vh;
+  right: 2vh;
   font-size: 13px;
+  width: 300px;
+  height: 80%;
+  overflow: auto; 
+  border: 1px solid #ccc; 
+  padding: 10px;
+  border-radius: 2%;
+}
+
+.HistoryList {
+  /* position: absolute; */
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
 }
