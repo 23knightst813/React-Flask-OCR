@@ -16,7 +16,7 @@ function App() {
   const [history, setHistory] = useState([]);
 
 
-  function handleHistoryUpdate(OCR) {
+  function handleHistoryUpdate(OCR , model) {
     // console.log('Retrieve the existing history')
     var retrievedData = localStorage.getItem('History');
 
@@ -26,7 +26,8 @@ function App() {
     // console.log('Create a new entry')
     var newEntry = {
         OCR: OCR,
-        date: new Date().toLocaleDateString('en-GB')
+        date: new Date().toLocaleDateString('en-GB'),
+        model: model
     };
 
     // console.log('Append new entry to the history')
@@ -109,7 +110,7 @@ function getHistoryFromStorage() {
           setrequest_model(result.model);
           console.log(request_model);
           console.log('Adding to history');
-          handleHistoryUpdate(result.OCR); // Add OCR to history
+          handleHistoryUpdate(result.OCR, selectedModel); // Add the OCR + model result to the history
           setHistory(getHistoryFromStorage()); // Update the history state
           console.log(result);
         })
@@ -167,12 +168,11 @@ function getHistoryFromStorage() {
   return (
     <>
 
-    
     <div className="History" tabIndex="-1">
       <h3 tabIndex="-1">History</h3>
       <ul className="HistoryList">
         {getHistoryFromStorage().reverse().map((entry, index) => (
-          <p key={index}>{entry.date} - {entry.OCR}</p>
+          <p key={index}>{entry.date} - {entry.model} - {entry.OCR}</p>
         ))}
       </ul>
     </div>
