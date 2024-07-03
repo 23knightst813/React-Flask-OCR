@@ -17,8 +17,6 @@
 body {
   background-color: #272727;
   color: #ffffff;
-  font-family: Verdana, sans-serif; 
-  
 }
 
 button {
@@ -120,18 +118,10 @@ input[type="file"] {
   position: absolute;
   top: 5vh;
   left: 3vh;
-  font-size: 13px;
 }
 .idDisplay {
   position: absolute;
-  top: 1vh;
+  top: 0vh;
   left: 2vh;
-  font-size: 13px;
 }
 
-.History {
-  position: absolute;
-  top: 5vh;
-  right: 5vh;
-  font-size: 13px;
-}

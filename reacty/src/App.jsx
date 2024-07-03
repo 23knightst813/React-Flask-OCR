@@ -13,50 +13,11 @@ function App() {
   const canvasRef = React.createRef();
   const [models, setModels] = useState([]);
   const [selectedModel, setSelectedModel] = useState('');
-  const [history, setHistory] = useState([]);
+  
 
-
-  function handleHistoryUpdate(OCR) {
-    // console.log('Retrieve the existing history')
-    var retrievedData = localStorage.getItem('History');
-
-    // console.log('Convert this string back')
-    var History = retrievedData ? JSON.parse(retrievedData) : [];
-
-    // console.log('Create a new entry')
-    var newEntry = {
-        OCR: OCR,
-        date: new Date().toLocaleDateString('en-GB')
-    };
-
-    // console.log('Append new entry to the history')
-    History.push(newEntry);
-
-    // console.log('Stringify the updated history')
-    var updatedHistoryString = JSON.stringify(History);
-
-    // console.log('Store the updated history back in local storage')
-    localStorage.setItem('History', updatedHistoryString);
-}
-
-function getHistoryFromStorage() {
-  // Retrieve the JSON string from local storage
-  const historyString = localStorage.getItem('History');
-
-  // Check if the history string exists
-  if (historyString) {
-    // Parse the JSON string to its original format
-    const history = JSON.parse(historyString);
-    return history;
-  } else {
-    // Return an empty array if there is no history
-    return [];
-  }
-}
 
 
   const handleImageUpload = (event) => {
-    // showCanvas && setShowCanvas(false);
     const file = event.target.files[0];
     if (file) {
       setSelectedImage(file);
@@ -77,15 +38,11 @@ function getHistoryFromStorage() {
       storedUserId = uniqueId;
     }
     setUserId(storedUserId);
-  
     getModels().then(models => {
       setModels(models);
       setSelectedModel(models[0]);
     });
-  
-    setHistory(getHistoryFromStorage());
   }, []);
-  
 
 
   function uploadFile(file, endpoint) {
@@ -99,22 +56,18 @@ function getHistoryFromStorage() {
       redirect: "follow"
     };
   
-      fetch(endpoint, requestOptions)
-        .then((response) => response.json())
-        .then((result) => {
-          setRequest_userId(result.userID);
-          console.log(request_userId);
-          setRequest_OCR(result.OCR);
-          console.log(request_OCR); 
-          setrequest_model(result.model);
-          console.log(request_model);
-          console.log('Adding to history');
-          handleHistoryUpdate(result.OCR); // Add OCR to history
-          setHistory(getHistoryFromStorage()); // Update the history state
-          console.log(result);
-        })
-        .catch((error) => console.error("error", error));
-    }
+    fetch(endpoint, requestOptions)
+      .then((response) => response.json())
+      .then((result) => {
+        setRequest_userId(result.userID);
+        console.log(request_userId);
+        setRequest_OCR(result.OCR);
+        console.log(request_OCR); 
+        setrequest_model(result.model);
+        console.log(request_model);
+        console.log(result)})
+      .catch((error) => console.error("error", error));
+  }
 
   function getModels() {
     const requestOptions = {
@@ -160,31 +113,24 @@ function getHistoryFromStorage() {
 
   const speak = (text) => {
     const utterance = new SpeechSynthesisUtterance('The number is ' + text);
+    const voices = window.speechSynthesis.getVoices();
+    const selectedVoice = voices.find(voice => voice.name === "Microsoft Priya Online - English (India)");
+    utterance.voice = selectedVoice;
     window.speechSynthesis.speak(utterance);
   };
 
 
   return (
     <>
+      
+      <header className="idDisplay">
+        <p>{userId}</p>
+      </header>
 
-    
-    <div className="History" tabIndex="-1">
-      <p tabIndex="-1">History</p>
-      <ul>
-        {getHistoryFromStorage().map((entry, index) => (
-          <p key={index}>{entry.date} - {entry.OCR}</p>
-        ))}
-      </ul>
-    </div>
-
-    <div className="idDisplay" aria-hidden="true" tabIndex="-1">
-      <p>{userId}</p>
-    </div>
-
-    <div aria-hidden="true" className='modelDrop' tabIndex="-1">
+      <div className='modelDrop'>
       <label htmlFor="model">Choose a model:</label>
       <br/>
-      <select aria-label="Ai-model-selection" value={selectedModel} onChange={handleModelChange} tabIndex="-1" >
+      <select value={selectedModel} onChange={handleModelChange}>
         {models.map((model, index) => (
           <option key={index} value={model}>
             {model}
@@ -193,61 +139,64 @@ function getHistoryFromStorage() {
       </select>
     </div>
 
-    <form >
-      <label tabIndex="0" htmlFor="myFile" className="custom-file-upload">
-        Choose File
-      </label>
-      <input
-        type="file"
-        id="myFile"
-        name="filename"
-        accept="image/*"
-        onChange={handleImageUpload}
-        tabIndex="-1"
-      />
-      <br />      
-      <p tabIndex="-1">or</p>
-
-    </form>
-    <button tabIndex="0" className="showCanvas" onClick={() => setShowCanvas(true)}>Draw</button>
-    {selectedImage && (
-      <div tabIndex="-1">
-        <h3>Uploaded Image:</h3>
-        <img src={URL.createObjectURL(selectedImage)} alt="Selected" style={{ maxWidth: "50%" }} />
-        <br/>
-        <br/>
-        <button onClick={imageUpload} className="submit-button" tabIndex="1">Submit</button>
-      </div>
-    )}
-
-    { showCanvas && (
-      <div tabIndex="-1">
-        <p>Draw your image</p>
-        
-        <CanvasDraw
-          ref={canvasRef}
-          brushColor="#000000"
-          brushRadius={6}
-          canvasWidth={300}
-          canvasHeight={300}
-          tabIndex="-1"
+      <form >
+        <label htmlFor="myFile" className="custom-file-upload">
+          Choose File
+        </label>
+        <input
+          type="file"
+          id="myFile"
+          name="filename"
+          accept="image/*"
+          onChange={handleImageUpload}
         />
+        <br />
+        <p>or</p>
+
+      </form>
+        <button className="showCanvas" onClick={() => setShowCanvas(true)}>Draw</button>
+      {selectedImage && (
+        <div>
+          <h3>Uploaded Image:</h3>
+          <img src={URL.createObjectURL(selectedImage)} alt="Selected" style={{ maxWidth: "50%" }} />
         <br/>
-        <button onClick={() => clearDrawing()} tabIndex="1">Clear</button>
-        <button onClick={() => saveDrawing()} tabIndex="1">Submit</button>
-      </div>
-    )}
+        <br/>
+        <button onClick={imageUpload} className="submit-button" >Submit</button>
+        </div>
+      )}
 
-    {request_userId === userId && (
-      <div tabIndex="-1">
-        <h3>Response Data:</h3>
-        <p>User ID: {request_userId}</p>
-        <p>OCR: {request_OCR}</p>
-        <p>Model: {request_model}</p>
+      { showCanvas && (
+        <div>
+          <p>Draw your image</p>
+          
+          <CanvasDraw
+            ref={canvasRef}
+            brushColor="#000000"
+            brushRadius={6}
+            canvasWidth={300}
+            canvasHeight={300}
+          />
+          <br/>
+        <button onClick={() => clearDrawing()}>Clear</button>
+        <button onClick={() => saveDrawing()}>Submit</button>
 
-        <button tabIndex="1" onClick={() => speak(request_OCR)}>Read OCR</button>
-      </div>
-    )}
+
+        </div>
+      )}
+
+        {request_userId === userId && (
+          <div>
+          <h3>Response Data:</h3>
+          <p>User ID: {request_userId}</p>
+          <p>OCR: {request_OCR}</p>
+          <p>Model: {request_model}</p>
+
+          <button onClick={() => speak(request_OCR)}>Speak</button>
+
+        </div>
+        )}
+
+      
     </>
   );
 }

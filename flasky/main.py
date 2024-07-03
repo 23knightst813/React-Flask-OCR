@@ -69,7 +69,6 @@ def preprocess_image(image_path):
     # Resize the image to 28x28 pixels
     img = cv2.resize(img, (28, 28))
 
-
     # Save the image
     cv2.imwrite('/workspace/AIy/saved_image.png', img)
     # Normalize the image
