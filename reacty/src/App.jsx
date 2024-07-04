@@ -253,7 +253,7 @@ function getHistoryFromStorage() {
     {selectedImage && (
       <div tabIndex="-1">
         <h3>Uploaded Image:</h3>
-        <img src={URL.createObjectURL(selectedImage)} alt="Selected" style={{ maxWidth: "50%" }} />
+        <img src={URL.createObjectURL(selectedImage)} alt="Selected" style={{ maxWidth: "18vh" }} />
         <br/>
         <br/>
         <button onClick={imageUpload} className="submit-button" tabIndex="1">Submit</button>
@@ -287,7 +287,8 @@ function getHistoryFromStorage() {
         <p>OCR: {request_OCR}</p>
         <p>Model: {request_model}</p>
 
-        <button tabIndex="1" onClick={() => speak(request_OCR)}>Read OCR</button>
+        <button tabIndex="1" onClick={() => speak(request_OCR)} style={{ margin: 5, fontSize: 13 }}>Read OCR</button>
+        <button tabIndex="1" onClick={() => navigator.clipboard.writeText(request_OCR)} style={{ margin: 5, fontSize: 13 }}>Copy OCR</button>
       </div>
     )}
     </>
