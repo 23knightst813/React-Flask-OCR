@@ -17,8 +17,8 @@
 body {
   background-color: #272727;
   color: #ffffff;
-  font-family: Verdana, sans-serif; 
-  
+  font-family: Verdana, sans-serif;
+  overflow: hidden;
 }
 
 button {
@@ -156,3 +156,4 @@ input[type="file"] {
   right: 119px;
   font-size: 13px;
 }
+
