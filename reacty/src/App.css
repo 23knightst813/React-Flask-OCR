@@ -149,3 +149,10 @@ input[type="file"] {
   padding: 0;
   
 }
+
+.ClearHistory {
+  position: fixed;
+  bottom: 10vh;
+  right: 119px;
+  font-size: 13px;
+}

@@ -15,6 +15,23 @@ function App() {
   const [selectedModel, setSelectedModel] = useState('');
   const [history, setHistory] = useState([]);
 
+  const handlePaste = async () => {
+    const clipboardItems = await navigator.clipboard.read();
+    let imageFound = false;
+    for (const clipboardItem of clipboardItems) {
+      for (const type of clipboardItem.types) {
+        if (type.startsWith('image/')) {
+          const blob = await clipboardItem.getType(type);
+          console.log(blob);
+          setSelectedImage(blob);
+          imageFound = true;
+        }
+      }
+    }
+    if (!imageFound) {
+      alert('No image found in clipboard');
+    }
+  };
 
   function handleHistoryUpdate(OCR , model) {
     // console.log('Retrieve the existing history')
@@ -84,9 +101,21 @@ function getHistoryFromStorage() {
       setSelectedModel(models[0]);
     });
   
+    const pasteHandler = (event) => {
+      handlePaste();
+      event.preventDefault(); // stop normal paste action
+    };
+    window.addEventListener('paste', pasteHandler);
+
     setHistory(getHistoryFromStorage());
   }, []);
-  
+
+
+  function clearHistory() {
+    localStorage.removeItem('History');
+    setHistory([]);
+  }
+
 
 
   function uploadFile(file, endpoint) {
@@ -168,6 +197,9 @@ function getHistoryFromStorage() {
   return (
     <>
 
+
+    <br/>
+
     <div className="History" tabIndex="-1">
       <h3 tabIndex="-1">History</h3>
       <ul className="HistoryList">
@@ -175,6 +207,7 @@ function getHistoryFromStorage() {
           <p key={index}>{entry.date} - {entry.model} - {entry.OCR}</p>
         ))}
       </ul>
+      <button className="ClearHistory" onClick={() => clearHistory()} tabIndex="-1">Clear History</button>
     </div>
 
     <div className="idDisplay" aria-hidden="true" tabIndex="-1">
@@ -192,6 +225,13 @@ function getHistoryFromStorage() {
         ))}
       </select>
     </div>
+
+
+    {/* Button for pasting what calls the pasteimg function */}
+
+    <button tabIndex="0" className="pasteButton" onClick={handlePaste}>Paste</button>
+
+    <p tabIndex="-1">or</p>
 
     <form >
       <label tabIndex="0" htmlFor="myFile" className="custom-file-upload">
@@ -232,8 +272,10 @@ function getHistoryFromStorage() {
           canvasHeight={300}
           tabIndex="-1"
         />
+        
+        <button onClick={clearDrawing} style={{fontSize: 13, marginTop: 15}} tabIndex="1">Clear</button>
         <br/>
-        <button onClick={() => clearDrawing()} tabIndex="1">Clear</button>
+        <br/> 
         <button onClick={() => saveDrawing()} tabIndex="1">Submit</button>
       </div>
     )}
