@@ -107,6 +107,8 @@ function getHistoryFromStorage() {
     };
     window.addEventListener('paste', pasteHandler);
 
+    
+
     setHistory(getHistoryFromStorage());
   }, []);
 
@@ -227,11 +229,13 @@ function getHistoryFromStorage() {
     </div>
 
 
+    <div className="menu">
+
     {/* Button for pasting what calls the pasteimg function */}
 
     <button tabIndex="0" className="pasteButton" onClick={handlePaste}>Paste</button>
 
-    <p tabIndex="-1">or</p>
+
 
     <form >
       <label tabIndex="0" htmlFor="myFile" className="custom-file-upload">
@@ -246,12 +250,12 @@ function getHistoryFromStorage() {
         tabIndex="-1"
       />
       <br />      
-      <p tabIndex="-1">or</p>
+
 
     </form>
     <button tabIndex="0" className="showCanvas" onClick={() => setShowCanvas(true)}>Draw</button>
     {selectedImage && (
-      <div tabIndex="-1">
+      <div tabIndex="-1" className="ShownImage">
         <h3>Uploaded Image:</h3>
         <img src={URL.createObjectURL(selectedImage)} alt="Selected" style={{ maxWidth: "18vh" }} />
         <br/>
@@ -261,7 +265,7 @@ function getHistoryFromStorage() {
     )}
 
     { showCanvas && (
-      <div tabIndex="-1">
+      <div tabIndex="-1" className="ShownCanvas">
         <p>Draw your image</p>
         
         <CanvasDraw
@@ -273,12 +277,15 @@ function getHistoryFromStorage() {
           tabIndex="-1"
         />
         
-        <button onClick={clearDrawing} style={{fontSize: 13, marginTop: 15}} tabIndex="1">Clear</button>
-        <br/>
-        <br/> 
-        <button onClick={() => saveDrawing()} tabIndex="1">Submit</button>
-      </div>
-    )}
+        <div className="CanvasButtons">
+      <button onClick={clearDrawing} tabIndex="1">Clear</button>
+      <button onClick={() => saveDrawing()} tabIndex="1">Submit</button>
+    </div>
+  </div>
+)}
+
+
+    </div>
 
     {request_userId === userId && (
       <div tabIndex="-1">

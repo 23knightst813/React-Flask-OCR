@@ -19,6 +19,37 @@ body {
   color: #ffffff;
   font-family: Verdana, sans-serif;
   overflow: hidden;
+
+}
+
+.CanvasButtons {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.CanvasButtons button {
+  flex: 1;
+  max-width: 100px;
+}
+
+
+.menu {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.ShownImage, .ShownCanvas {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 2rem;
 }
 
 button {
@@ -42,7 +73,7 @@ button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
 }
 
-/* CSS for file input buttons */
+
 input[type="file"] {
   display: none;
 }
