@@ -135,7 +135,14 @@ input[type="file"] {
   outline: 4px auto -webkit-focus-ring-color;
 }
 
+.CanvasButtons button {
+  transition: transform 0.3s ease-in-out;
+}
 
+.CanvasButtons button:hover {
+  transform: scale(1.1);
+
+}
 
 .showCanvas {
   display: inline-block;
