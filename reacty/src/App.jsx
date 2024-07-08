@@ -287,10 +287,9 @@ function getHistoryFromStorage() {
         
 
 
-        <div className="CanvasButtons">
+    <div className="CanvasButtons">
       <button onClick={clearDrawing} tabIndex="1">Clear</button>
-      <Button onClick={saveDrawing} tabIndex="1">Submit</Button>
-
+      <button onClick={saveDrawing} tabIndex="1">Submit</button>
     </div>
   </div>
 )}
