@@ -121,10 +121,13 @@ input[type="file"] {
   background-color: #1a1a1a;
   cursor: pointer;
   transition: border-color 0.25s;
+  transition: transform 0.3s ease-in-out;
+
 }
 
 .submit-button:hover {
   border-color: #646cff;
+  transform: scale(1.1);
 }
 
 .submit-button:focus,
