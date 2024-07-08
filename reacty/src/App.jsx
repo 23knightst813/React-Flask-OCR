@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import ReactiveButton from 'reactive-button';
 import CanvasDraw from "react-canvas-draw";
 import "./App.css";
 
