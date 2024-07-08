@@ -5,11 +5,21 @@
   text-align: center;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
-  }
+
+
+.title {
+  position: fixed;
+  top: 2vh;
+  left: 0;
+  right: 0;
+  
+  font-family: Geneva, Verdana, sans-serif;
+  text-align: center;
+  width: 100%;
+  z-index: 1000;
 }
+
+
 
 .card {
   padding: 2em;
@@ -178,6 +188,10 @@ input[type="file"] {
   .History {
     display: none;
   }
+  .title
+  {
+    top: 10vh;
+  }
 }
 
 .HistoryList {
@@ -194,4 +208,5 @@ input[type="file"] {
   right: 119px;
   font-size: 13px;
 }
+
 

@@ -203,6 +203,8 @@ function getHistoryFromStorage() {
     <>
 
 
+    <p className="title" tabIndex="-1">Handwritten Digit Recognition</p>
+
     <br/>
 
     <div className="History" tabIndex="-1">
@@ -233,8 +235,6 @@ function getHistoryFromStorage() {
 
 
     <div className="menu">
-
-    {/* Button for pasting what calls the pasteimg function */}
 
     <button tabIndex="0" className="pasteButton" onClick={handlePaste}>Paste</button>
 
@@ -269,7 +269,7 @@ function getHistoryFromStorage() {
 
     { showCanvas && (
       <div tabIndex="-1" className="ShownCanvas">
-        <p>Draw your image</p>
+        <p>Draw A Digit:</p>
         
         <CanvasDraw
           ref={canvasRef}
