@@ -131,21 +131,24 @@ function getHistoryFromStorage() {
       redirect: "follow"
     };
   
-      fetch(endpoint, requestOptions)
-        .then((response) => response.json())
-        .then((result) => {
-          setRequest_userId(result.userID);
-          console.log(request_userId);
-          setRequest_OCR(result.OCR);
-          console.log(request_OCR); 
-          setrequest_model(result.model);
-          console.log(request_model);
-          console.log('Adding to history');
-          handleHistoryUpdate(result.OCR, selectedModel); // Add the OCR + model result to the history
-          setHistory(getHistoryFromStorage()); // Update the history state
-          console.log(result);
-        })
-        .catch((error) => console.error("error", error));
+    let time = Date.now();
+    fetch(endpoint, requestOptions)
+      .then((response) => response.json())
+      .then((result) => {
+        time = Date.now() - time;
+        console.log(time)
+        setRequest_userId(result.userID);
+        // console.log(request_userId);
+        setRequest_OCR(result.OCR);
+        // console.log(request_OCR); 
+        setrequest_model(result.model);
+        // console.log(request_model);
+        console.log('Adding to history');
+        handleHistoryUpdate(result.OCR, selectedModel); // Add the OCR + model result to the history
+        setHistory(getHistoryFromStorage()); // Update the history state
+        console.log(result);
+      })
+      .catch((error) => console.error("error", error));
     }
 
   function getModels() {

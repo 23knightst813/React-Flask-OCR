@@ -173,6 +173,13 @@ input[type="file"] {
   border-radius: 2%;
 }
 
+
+@media (max-width: 1054px) {
+  .History {
+    display: none;
+  }
+}
+
 .HistoryList {
   /* position: absolute; */
   list-style-type: none;
