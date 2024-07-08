@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState  } from "react";
 import CanvasDraw from "react-canvas-draw";
 import "./App.css";
 
@@ -8,12 +8,14 @@ function App() {
   const [userId, setUserId] = useState(null);
   const [request_userId, setRequest_userId] = useState(null);
   const [request_OCR, setRequest_OCR] = useState(null);
+  const [request_time, setrequest_time] = useState(null);
   const [request_model, setrequest_model] = useState(null);
   const [showCanvas, setShowCanvas] = useState(false);
   const canvasRef = React.createRef();
   const [models, setModels] = useState([]);
   const [selectedModel, setSelectedModel] = useState('');
   const [history, setHistory] = useState([]);
+
 
   const handlePaste = async () => {
     const clipboardItems = await navigator.clipboard.read();
@@ -135,8 +137,9 @@ function getHistoryFromStorage() {
     fetch(endpoint, requestOptions)
       .then((response) => response.json())
       .then((result) => {
-        time = Date.now() - time;
-        console.log(time)
+        time = (Date.now() - time) / 1000;
+        setrequest_time(time)
+        console.log(time, 'Seconds');
         setRequest_userId(result.userID);
         // console.log(request_userId);
         setRequest_OCR(result.OCR);
@@ -187,6 +190,8 @@ function getHistoryFromStorage() {
       console.log('PNG Blob:', blob);
       uploadFile(blob, "http://localhost:5000/upload");
     }, 'image/png');
+
+
   };
   
   const clearDrawing = () => {
@@ -280,9 +285,12 @@ function getHistoryFromStorage() {
           tabIndex="-1"
         />
         
+
+
         <div className="CanvasButtons">
       <button onClick={clearDrawing} tabIndex="1">Clear</button>
-      <button onClick={() => saveDrawing()} tabIndex="1">Submit</button>
+      <Button onClick={saveDrawing} tabIndex="1">Submit</Button>
+
     </div>
   </div>
 )}
@@ -293,6 +301,7 @@ function getHistoryFromStorage() {
     {request_userId === userId && (
       <div tabIndex="-1">
         <h3>Response Data:</h3>
+        <p>Request Time: {request_time}s</p>
         <p>User ID: {request_userId}</p>
         <p>OCR: {request_OCR}</p>
         <p>Model: {request_model}</p>
