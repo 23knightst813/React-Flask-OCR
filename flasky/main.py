@@ -70,7 +70,7 @@ def preprocess_image(image_path):
     img = cv2.resize(img, (28, 28))
 
     # Save the image
-    cv2.imwrite('/workspace/AIy/saved_image.png', img)
+    cv2.imwrite('AIy/saved_image.png', img)
     # Normalize the image
     img = img / 255.0
 
@@ -121,13 +121,14 @@ def upload():
         file.save(image_path)
         ocr_final = aiStuff(image_path,model_path)
 
-        return ( 
-            json.dumps({
-                    "userID": userId,
-                    "OCR": ocr_final,
-                    "model": model
-                })
-                )
+        response = jsonify({
+            "userID": userId,
+            "OCR": ocr_final,
+            "model": model
+        })
+        
+        response.headers.add('Access-Control-Allow-Origin', '*')
+        return response
 
 
 

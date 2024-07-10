@@ -160,14 +160,14 @@ function getHistoryFromStorage() {
       redirect: "follow"
     };
   
-    return fetch("http://127.0.0.1:5000/models", requestOptions)
+    return fetch("http://137.184.210.222:5000/models", requestOptions)
       .then((response) => response.json()) // parse the response as JSON
       .catch((error) => console.error(error));
   }
 
 
   function imageUpload() {
-    uploadFile(selectedImage, "http://localhost:5000/upload");
+    uploadFile(selectedImage, "http://137.184.210.222:5000/upload");
   }
   
   const saveDrawing = () => {
@@ -188,7 +188,7 @@ function getHistoryFromStorage() {
     // Convert to Blob
     canvas.toBlob((blob) => {
       console.log('PNG Blob:', blob);
-      uploadFile(blob, "http://localhost:5000/upload");
+      uploadFile(blob, "http://137.184.210.222:5000/upload");
     }, 'image/png');
 
 
