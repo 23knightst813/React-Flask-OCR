@@ -1,7 +1,13 @@
+version: '3.8'
+services:
+  flask-app:
+    container_name: flask-app
+    image: 23knightst813/python-flasky:0.8
+    ports:
+       - "5000:5000"
 
-  app:
-    build:
-      context: .
-      # target: final
-
-
+  react-app:
+    container_name: react-app
+    image: 23knightst813/node-reacty:0.1
+    ports:
+      - "8080:80"
