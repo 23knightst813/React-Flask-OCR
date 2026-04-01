@@ -12,7 +12,7 @@ This project is designed to perform Optical Character Recognition (OCR) on uploa
 
 ## Contributors
 
-- [Theo Knights](https://github.com/23knightst813) - Back-end APIs, React Front End
+- [Theo Knights](https://github.com/23knightst813) - Team Leader + Back-end APIs And React Front End
 - [Jessika Stevens](https://github.com/jessikastevens) - R&D
 - [Khanya Malgas-Mcfadden](https://github.com/khanya-mcfadden) - Machine learning device prediction model
 
